@@ -2,7 +2,7 @@ import React , { useState } from 'react';
 import { connect } from 'react-redux';
 import { addTasks } from '../actions/index'
 
-function ItemForm () {
+function ItemForm ({ addTask }) {
 
     const [ tasks, setTasks ] = useState('')
 
@@ -14,9 +14,9 @@ function ItemForm () {
         setTasks(text)
     }
  
-    const addTasks = ({key}) => { 
+    const handleKeyPress = ({key, target: { value }}) => { 
         if(key === 'Enter') {
-          addTasks(tasks)
+          addTask(value)
           setTasks('')
         }
     }
@@ -28,16 +28,17 @@ function ItemForm () {
         placeholder="Введите название задачи"
         onChange = {handleChange}
         value={tasks}
-        onKeyPress={addTasks}/>
+        onKeyPress={handleKeyPress}/>
     )
 }
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addTask: (text => {
+            dispatch(addTasks(text))
+        })
+    }
+};
 
 
-// const mapDispatchToProps = {
-//     getAddress
-// };
-
-
-
-export default connect(null , {addTasks} )(ItemForm)
+export default connect(null , mapDispatchToProps )(ItemForm)

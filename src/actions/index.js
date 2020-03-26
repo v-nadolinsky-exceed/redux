@@ -1,16 +1,26 @@
-import { ADD_TASK, REMOVE_TASK } from "../type"
+import { ADD_TASK, REMOVE_TASK, CHANGE_TASK } from "../type"
 
 export const addTasks = (text) => {
     return {
         type : ADD_TASK,
-        text
+        payload: {
+            id: new Date().getTime(),
+            text
+        }
     }
 }
 
-export const removeReducer = (id) => {
+export const removeTasks = (id) => {
     return {
         type : REMOVE_TASK,
-        payload : {id}
+        payload : { id }
+    }
+}
+
+export const changeTasks = (id,text) => {
+    return {
+        type : CHANGE_TASK,
+        payload : { id , text } 
     }
 }
 

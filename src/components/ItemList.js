@@ -1,16 +1,20 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Item from './Item';
 
-function ItemList() {
+function ItemList({ tasks: tasksFromState}) {
 
     return(
         <>
-           {/* { props.map(task => {
-                <Item />
-            })} */}
+           { tasksFromState.map(task => <Item key = {task.id} {...task}/>)}
         </>
     )
-
 }
 
-export default ItemList
+const mapStateToProps = (state) => {
+    return {
+        tasks: state.tasks.items
+    }
+};
+
+export default connect(mapStateToProps)(ItemList)

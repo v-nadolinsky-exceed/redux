@@ -1,28 +1,25 @@
-import { ADD_TASK, REMOVE_TASK } from "../type"
+import { ADD_TASK, REMOVE_TASK, CHANGE_TASK } from "../type"
 
 const InitialState = () => {
     return {
-        type : 'DEFAULT_TASK',
-        payload : {
-            id : new Date().toDateString(),
-            text: 'Test'
-        }
+       items : []
     }
 }
 
-export const itemReducer = (state = InitialState ,action) => {
+export const itemReducer = (state = InitialState() ,action) => {
     switch (action.type) {
         case ADD_TASK :
-            return [
-                ...state,
-                {
-                    id: new Date().toDateString(),
-                    text: action.text 
-                }
-            ]
+            return { ...state, items: [...state.items, action.payload] }
         case REMOVE_TASK: 
-            return {}
+            return { items: [...state.items.filter( task => task.id !== action.payload.id ) ]} 
+        case CHANGE_TASK:
+            return { items: [...state.items.map( task => {
+                if( task.id === action.payload.id) {
+                    return { ...task , text : action.payload.text }
+                }
+            })]}
         default :
             return state
     }
+
 }
